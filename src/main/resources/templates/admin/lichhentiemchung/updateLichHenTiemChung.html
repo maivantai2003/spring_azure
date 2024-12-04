@@ -1,0 +1,159 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{/admin/dashboard}">
+<head>
+    <title th:text="${param.maTiemChung != null ? 'Cập nhật tiêm chủng' : 'Thêm mới tiêm chủng'}"></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/admin/lich-hen-tiem-chung/index.css}">
+</head>
+
+<body>
+<div th:fragment="contentAdmin">
+    <div class="card-body">
+        <div class="col-md-6" style="max-width: 100%;">
+            <div class="card mb-4">
+                <h5 class="font-weight-bold card-header">Chi tiết lịch hẹn tiêm chủng</h5>
+                <div class="card">
+                    <div class="card-body">
+                        <form th:action="@{/admin/lichhentiemchung/update}" th:object="${lichHenTiemChung}" method="post">
+                        <input type="text" class="form-control" th:value="${lichHenTiemChung.noiTiemChung}" th:field="*{maLichHenTiemChung}" hidden="hidden" placeholder="Nhập nơi tiêm chủng">
+                            <div class="mb-3">
+                                <label for="noiTiemChung" class="form-label">Nơi Tiêm Chủng</label>
+                                <input type="text" class="form-control" th:value="${lichHenTiemChung.noiTiemChung}" th:field="*{noiTiemChung}" id="noiTiemChung" placeholder="Nhập nơi tiêm chủng">
+                            </div>
+                            <div class="mb-3">
+                                <label for="ngayHenTiem" class="form-label">Ngày Tiêm</label>
+                                <input type="datetime-local" class="form-control" th:value="${lichHenTiemChung.ngayHenTiem}" th:field="*{ngayHenTiem}" id="ngayHenTiem">
+                            </div>
+                            <div class="mb-3 col-6">
+                                <label class="form-label">Danh sách thành viên</label>
+                                <select name="" class="form-select" id="thanhVien"></select>
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Tên Người Dùng</th>
+                                        <th>Tên Vaccin</th>
+                                        <th>Xóa</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="selectedMembers">
+                                    </tbody>
+                                </table>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Cập nhật</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", ()=>{
+            const thanhVienSelector = document.getElementById('thanhVien')
+            const selectedMembersContainer = document.getElementById("selectedMembers")
+            let members = /*[[${members}]]*/ [];
+            let lichHenTiemChung = /*[[${lichHenTiemChung}]]*/{};
+            let filteredMembers = JSON.parse(JSON.stringify(members))
+            let selectedMembers = []
+
+
+
+            function displayMemberList() {
+                filteredMembers.sort((a, b) => a.maNguoiDung > b.maNguoiDung)
+                thanhVienSelector.innerHTML = ''
+                const defaultOption = document.createElement('option')
+                defaultOption.text = "Chọn thành viên"
+                thanhVienSelector.appendChild(defaultOption)
+                filteredMembers.forEach((member, index) => {
+                    let memberOption = document.createElement('option')
+                    memberOption.value = member.maNguoiDung
+                    memberOption.text = member.tenNguoiDung
+                    thanhVienSelector.appendChild(memberOption)
+                })
+            }
+
+            function handleDeleteSelectedMember(id) {
+                const selectedMemberItems = document.querySelectorAll(".selected_member_item")
+                selectedMemberItems.forEach(selectedMemberItem => {
+                    let itemId = selectedMemberItem.querySelectorAll("td")[0].innerText
+                    if (itemId == id) {
+                        selectedMemberItem.remove()
+                    }
+                })
+                selectedMembers = selectedMembers.filter(member => {
+                    if (member.maNguoiDung == id) {
+                        filteredMembers.push(member)
+                        displayMemberList()
+                    }
+                    return member.maNguoiDung != id
+                })
+            }
+
+
+            function handleSelectMember(id, tenVaccin) {
+                filteredMembers = filteredMembers.filter((member) => {
+                    if (member.maNguoiDung == id) {
+                        selectedMembers.push(member)
+
+                        const memberRow = document.createElement('tr')
+
+                        const idCell = document.createElement('td')
+                        idCell.innerText = member.maNguoiDung;
+                        const memberId = document.createElement('input')
+                        memberId.value = member.maNguoiDung
+                        memberId.hidden = true
+                        memberId.name = `memberIds`;
+                        memberRow.appendChild(memberId)
+
+                        const nameCell = document.createElement('td')
+                        const nameText = document.createElement('span')
+                        nameText.innerText = member.tenNguoiDung
+                        nameText.style.fontWeight = 'bold'
+                        nameCell.appendChild(nameText);
+
+
+
+                        const vaccinCell = document.createElement('td')
+                        const vaccinInput = document.createElement('input')
+                        vaccinInput.className = 'form-control'
+                        vaccinInput.name = 'tenVaccins'
+                        vaccinInput.value = tenVaccin
+                        vaccinCell.appendChild(vaccinInput)
+
+                        const delCell = document.createElement('td')
+                        const delBtn = document.createElement('button')
+                        delBtn.type = 'button'
+                        delBtn.innerText = 'Xóa'
+                        delBtn.className = 'btn btn-secondary'
+                        delBtn.addEventListener('click', () => {
+                            handleDeleteSelectedMember(id)
+                        })
+                        delCell.appendChild(delBtn)
+
+                        memberRow.appendChild(idCell)
+                        memberRow.appendChild(nameCell)
+                        memberRow.appendChild(vaccinCell)
+                        memberRow.appendChild(delCell)
+                        memberRow.className = 'selected_member_item'
+                        selectedMembersContainer.appendChild(memberRow)
+                    }
+                    return member.maNguoiDung != id
+                })
+                displayMemberList()
+            }
+            displayMemberList()
+            lichHenTiemChung.nguoiDungTiemChungList.forEach((nguoiDungTiemChung)=>{
+                handleSelectMember(nguoiDungTiemChung.nguoiDung.maNguoiDung, nguoiDungTiemChung.tenVaccin)
+            })
+            thanhVienSelector.addEventListener('change', (e) => {
+                handleSelectMember(e.target.value, '')
+            })
+
+        })
+    </script>
+</div>
+
+
+</body>
+</html>

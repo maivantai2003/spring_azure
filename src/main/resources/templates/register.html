@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link th:href="@{/css/login.css}" rel="stylesheet">
+</head>
+
+<body>
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <!----------------------- Login Container -------------------------->
+    <div class="row border rounded-5 p-3 bg-white shadow box-area">
+        <!--------------------------- Left Box ----------------------------->
+        <div class="col-md-6 right-box" style="padding: 30px 30px 30px 20px">
+            <form action="#" th:action="@{/register}" th:object="${registration}" method="POST"
+                  class="row align-items-center">
+                <div class="header-text mb-2 w-100 d-flex flex-column justify-content-center">
+                    <h2 class="text-center fw-bold">Đăng ký</h2>
+                </div>
+                <div th:if="${error}" class="alert alert-danger" role="alert">
+                    <div th:text="${error}"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="usernameForm" class="form-label">Họ tên</label>
+                    <input type="text" id="usernameForm" th:field="*{nguoidung.tenNguoiDung}" class="form-control form-control-lg bg-light fs-6"
+                           placeholder="Nhập họ tên" maxlength="100" />
+                </div>
+                <div class="mb-3">
+                    <label for="phoneForm" class="form-label">Số điện thoại</label>
+                    <input type="text" id="phoneForm" th:field="*{taikhoan.soDienThoai}" class="form-control form-control-lg bg-light fs-6"
+                           placeholder="Nhập số" />
+                </div>
+                <div class="mb-3">
+                    <label for="emailForm" class="form-label">Email</label>
+                    <input type="email" id="emailForm" th:field="*{nguoidung.email}" class="form-control form-control-lg bg-light fs-6"
+                           placeholder="Địa chỉ email"/>
+                </div>
+                <div class="mb-3">
+                    <label for="passwordForm" class="form-label">Mật khẩu</label>
+                    <input type="password" id="passwordForm" th:field="*{taikhoan.matKhau}" class="form-control form-control-lg bg-light fs-6"
+                           placeholder="Nhập mật khẩu" />
+                </div>
+                <div class="mb-3">
+                    <label for="rePasswordForm" class="form-label">Nhập lại mật khẩu</label>
+                    <input type="password" id="rePasswordForm" th:field="*{rePassword}" class="form-control form-control-lg bg-light fs-6"
+                           placeholder="Nhập lại mật khẩu" />
+                </div>
+                <div class="input-group mb-3">
+                    <button type="submit" class="btn btn-lg btn-primary w-100 fs-6">Đăng ký</button>
+                </div>
+                <div class="row">
+                    <small>Bạn đã có tài khoản? <a th:href="@{/login}">Đăng nhập</a></small>
+                </div>
+            </form>
+        </div>
+        <!-------------------- ------ Right Box ---------------------------->
+        <div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box"
+             style="background: #103cbe;">
+            <div class="featured-image mb-3">
+                <img class="img-fluid" th:src="@{/image/icon.png}" alt="Logo" style="width: 150px;height: 150px">
+            </div>
+            <p class="text-white fs-2" style="font-weight: 600;">NHẬT KÝ KHÁM BỆNH</p>
+            <small class="text-white text-wrap text-center" style="width: 17rem">Cho các thành viên trong gia đình</small>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    function validatePassword() {
+        var password = document.getElementById("passwordForm").value;
+        var confirmPassword = document.getElementById("rePasswordForm").value;
+
+        if (password !== confirmPassword) {
+            alert("Mật khẩu nhập lại không khớp!");
+            return false;
+        }
+        return true;
+    }
+</script>
+</html>

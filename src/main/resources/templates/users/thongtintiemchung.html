@@ -1,0 +1,60 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông tin tiêm chủng</title>
+</head>
+
+<body>
+<div th:fragment="contentUser" class="container">
+    <link rel="stylesheet" th:href="@{../../css/user/thongtinbenh.css}">
+    <link rel="stylesheet" th:href="@{../../css/user/chitietbenh.css}">
+
+    <div class="card">
+        <div class="header">
+            <div>Thông tin vắc xin</div>
+        </div>
+
+        <div class="info-section">
+            <div class="info-text">
+                <p>
+                    <strong>Vắc xin:</strong>
+                    <span th:text="${chiTietTiemChung.tiemChung.tenVacXin}"></span>
+                </p>
+                <p>
+                    <strong>Người tiêm:</strong>
+                    <span th:text="${chiTietTiemChung.nguoiTiem}"></span>
+                </p>
+                <p>
+                    <strong>Ngày tiêm:</strong>
+                    <span th:text="${@stringUtils.formatDate(chiTietTiemChung.ngayTiem, 'dd/MM/yyyy')}"></span>
+                </p>
+                <p>
+                    <strong>Mũi số:</strong>
+                    <span class="status-pill status-discharged" th:text="${chiTietTiemChung.muiTiemSo}"></span>
+                </p>
+                <p>
+                    <strong>Nơi tiêm:</strong>
+                    <span th:text="${chiTietTiemChung.tiemChung.noiTiemChung}"></span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentIndex = 0;
+
+    const thumbnails = document.querySelectorAll('.thumbnail-container img');
+
+    thumbnails[currentIndex].classList.add('thumbnail-active');
+
+    thumbnails.forEach((thumbnail, index) => {
+        thumbnail.addEventListener('click', () => {
+            updateMainImage(index);
+        });
+    });
+</script>
+</body>
+
+</html>

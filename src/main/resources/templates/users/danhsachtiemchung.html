@@ -1,0 +1,41 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh Sách Tiêm Chủng</title>
+</head>
+<body>
+<div th:fragment="contentUser" class="container">
+    <link rel="stylesheet" th:href="@{../../css/user/danhsachbenh.css}">
+
+    <div class="merged-container">
+        <h4 class="mb-4">Danh sách tiêm chủng</h4>
+        <div class="card-wrapper">
+            <a th:each="chitiet : ${dsChiTietTiemChung}" th:href="@{/users/tiemchung/chitiet(maTiemChung=${chitiet.maTiemChung})}" class="card-item text-decoration-none">
+                <div class="card">
+                    <div class="card-body d-flex align-items-center text-dark">
+                        <div class="date-box">
+                            <div class="day" th:text="${@stringUtils.formatDate(chitiet.ngayTiem, 'dd')}">26</div>
+                            <div class="month-year" th:text="${@stringUtils.formatDate(chitiet.ngayTiem, 'MM/yyyy')}">11/2021</div>
+                            <div class="time" th:text="${@stringUtils.formatDate(chitiet.ngayTiem, 'HH:mm')}">01:00</div>
+                        </div>
+                        <div class="vaccine-info flex-grow-1">
+                            <div>
+                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16'%3E%3Cpath d='M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z'/%3E%3Cpath d='M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z'/%3E%3C/svg%3E" alt="Vaccine Icon">
+                                <span th:text="${chitiet.tiemChung.tenVacXin}">COVID-19 Vaccine AstraZeneca</span>
+                            </div>
+                            <div>
+                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16'%3E%3Cpath d='M8.5 5.034v1.1l.953-.55.5.867L9 7l.953.55-.5.866-.953-.55v1.1h-1v-1.1l-.953.55-.5-.866L7 7l-.953-.55.5-.866.953.55v-1.1h1zM13.25 9a.25.25 0 0 0-.25.25v.5c0 .138.112.25.25.25h.5a.25.25 0 0 0 .25-.25v-.5a.25.25 0 0 0-.25-.25h-.5zM13 11.25a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5zm.25 1.75a.25.25 0 0 0-.25.25v.5c0 .138.112.25.25.25h.5a.25.25 0 0 0 .25-.25v-.5a.25.25 0 0 0-.25-.25h-.5zm-11-4a.25.25 0 0 0-.25.25v.5c0 .138.112.25.25.25h.5A.25.25 0 0 0 3 9.75v-.5A.25.25 0 0 0 2.75 9h-.5zm0 2a.25.25 0 0 0-.25.25v.5c0 .138.112.25.25.25h.5a.25.25 0 0 0 .25-.25v-.5a.25.25 0 0 0-.25-.25h-.5zM2 13.25a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5z'/%3E%3Cpath d='M5 1a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1a1 1 0 0 1 1 1v4h3a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h3V3a1 1 0 0 1 1-1V1zm2 14h2v-3H7v3zm3 0h1V3H5v12h1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3zm0-14H6v1h4V1zm2 7v7h3V8h-3zm-8 7V8H1v7h3z'/%3E%3C/svg%3E" alt="Location Icon">
+                                <span th:text="${chitiet.tiemChung.noiTiemChung}">TYT Vĩnh Phước</span>
+                            </div>
+                        </div>
+                        <div class="arrow">&gt;</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

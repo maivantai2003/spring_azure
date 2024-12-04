@@ -1,0 +1,95 @@
+<nav id="sidebar">
+    <div class="sidebar-header">
+        <h3><img th:src="@{../../image/sgu.png}"  class="img-fluid"/><span>Quản Lý Hồ Sơ</span></h3>
+    </div>
+    <ul class="list-unstyled components">
+        <li class="active">
+            <a href="/admin/dashboard" class="dashboard text-decoration-none">
+                <i class="material-icons">bar_chart</i>
+                <span>Thống kê</span>
+            </a>
+        </li>
+
+        <li class="">
+            <a href="/admin/tongquan" class="dashboard text-decoration-none">
+                <i class="material-icons">history</i>
+                <span>Tiền Sử Bệnh</span>
+            </a>
+        </li>
+
+        <li class="dropdown">
+            <a href="#homeSubmenu1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-decoration-none">
+                <i class="material-icons">vaccines</i>
+                Tiêm chủng
+            </a>
+            <ul class="collapse list-unstyled menu" id="homeSubmenu1">
+                <li>
+                    <a href="/admin/tiemchung" class="text-decoration-none">Danh sách</a>
+                </li>
+                <li>
+                    <a href="/admin/lichhentiemchung" class="text-decoration-none">Lịch hẹn tiêm chủng</a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="">
+            <a href="/admin/khambenh" class="dashboard text-decoration-none">
+                <i class="material-icons">medical_services</i>
+                <span>Khám Bệnh</span>
+            </a>
+        </li>
+
+        <li class="">
+            <a href="/admin/donthuoc" class="dashboard text-decoration-none">
+                <i class="material-icons">description</i>
+                <span>Đơn Thuốc</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="/logout" class="dashboard text-decoration-none logout-btn">
+                <i class="material-icons">logout</i>
+                <span>Đăng Xuất</span>
+            </a>
+        </li>
+    </ul>
+
+    <style>
+        #sidebar ul.components {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #sidebar ul.components li:last-child a {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            bottom: 0;
+        }
+
+        .logout-btn i {
+            color: red;
+        }
+    </style>
+</nav>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const menuItems = document.querySelectorAll("#sidebar .list-unstyled.components li a");
+
+        const activeItem = localStorage.getItem("activeMenu");
+
+        menuItems.forEach(link => {
+            const parentLi = link.parentElement;
+
+            if (link.getAttribute("href") === activeItem) {
+                parentLi.classList.add("active");
+            }
+
+            link.addEventListener("click", function () {
+                localStorage.setItem("activeMenu", link.getAttribute("href"));
+            });
+        });
+    });
+</script>
+

@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Trang chủ</title>
+
+    <!-- Meta -->
+    <meta name="description" content="Marketplace for Bootstrap Admin Dashboards">
+    <meta property="og:title" content="Admin Templates - Dashboard Templates">
+    <meta property="og:description" content="Marketplace for Bootstrap Admin Dashboards">
+    <meta property="og:type" content="Website">
+    <link rel="shortcut icon" th:href="@{/image/user/favicon.svg}">
+
+    <!-- *************
+		************ CSS Files *************
+	************* -->
+    <link rel="stylesheet" th:href="@{/font/remix/remixicon.css}">
+    <link rel="stylesheet" th:href="@{/css/user/main.min.css}">
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+
+    <!-- Scrollbar CSS -->
+    <link rel="stylesheet" th:href="@{/vendor/overlay-scroll/OverlayScrollbars.min.css}">
+
+    <!-- Required jQuery first, then Bootstrap Bundle JS -->
+    <script th:src="@{/js/user/moment.min.js}"></script>
+
+    <!-- *************
+            ************ Vendor Js Files *************
+        ************* -->
+
+    <!-- Overlay Scroll JS -->
+    <script th:src="@{/vendor/overlay-scroll/jquery.overlayScrollbars.min.js}"></script>
+    <script th:src="@{/vendor/overlay-scroll/custom-scrollbar.js}"></script>
+
+    <!-- Apex Charts -->
+    <script th:src="@{/vendor/apex/apexcharts.min.js}"></script>
+    <script th:src="@{/vendor/apex/custom/home/patients.js}"></script>
+    <script th:src="@{/vendor/apex/custom/home/treatment.js}"></script>
+    <script th:src="@{/vendor/apex/custom/home/available-beds.js}"></script>
+    <script th:src="@{/vendor/apex/custom/home/earnings.js}"></script>
+    <script th:src="@{/vendor/apex/custom/home/gender-age.js}"></script>
+    <script th:src="@{/vendor/apex/custom/home/claims.js}"></script>
+
+    <!-- Custom JS files -->
+    <script th:src="@{/js/user/custom.js}"></script>
+
+    <style>
+        df-messenger {
+            --df-messenger-bot-message: #103cbe;
+            --df-messenger-button-titlebar-color: #103cbe;
+            --df-messenger-chat-background-color: #fafafa;
+            --df-messenger-font-color: white;
+            --df-messenger-send-icon: #103cbe;
+            --df-messenger-user-message: #479b3d;
+            z-index: 999;
+        }
+
+        .messenger-wrapper {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+    }
+
+    .messenger-button {
+        display: flex;
+        align-items: center;
+        width: 60px;
+        height: 60px;
+        justify-content: center;
+        color: white;
+        padding: 5px;
+        border-radius: 50%;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        background-color: white;
+        position: relative;
+        animation: shakeAnimation 1s infinite;
+    }
+
+    .messenger-button img {
+        width: 40px;
+        margin-right: 0px;
+    }
+
+    /* Hiệu ứng rung */
+    @keyframes shakeAnimation {
+        0% { transform: rotate(0deg); }
+        10% { transform: rotate(-10deg); }
+        20% { transform: rotate(10deg); }
+        30% { transform: rotate(-10deg); }
+        40% { transform: rotate(10deg); }
+        50% { transform: rotate(0deg); }
+        100% { transform: rotate(0deg); }
+    }
+
+    /* Hiệu ứng sóng loang */
+    .messenger-button::before,
+    .messenger-button::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background-color: rgba(255, 0, 0, 0.3);
+        animation: rippleAnimation 2s infinite;
+    }
+
+    .messenger-button::after {
+        animation-delay: 1s;
+    }
+
+    @keyframes rippleAnimation {
+        0% {
+            transform: scale(1);
+            opacity: 0.4;
+        }
+        100% {
+            transform: scale(2.5);
+            opacity: 0;
+        }
+    }
+
+
+/* Container chính */
+.buttons-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column-reverse; /* Đảo ngược thứ tự để Messenger ở dưới cùng */
+    gap: 20px;
+    align-items: flex-end;
+}
+
+/* Dialogflow styles */
+.dialogflow-wrapper {
+    margin-bottom: 160px; /* Tăng khoảng cách để tránh chồng lên các nút khác */
+}
+
+df-messenger {
+    z-index: 1003;
+}
+
+/* Fastbot styles */
+.fastbot-wrapper {
+    position: relative;
+    z-index: 1002;
+}
+
+.fastbot-button {
+    display: flex;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    justify-content: center;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    animation: shakeAnimation 1s infinite;
+}
+
+.fastbot-button img {
+    width: 40px;
+}
+
+.fastbot-iframe {
+    display: none;
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+    width: 350px;
+    height: 500px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1002;
+}
+
+.fastbot-wrapper.active .fastbot-iframe {
+    display: block;
+}
+
+/* Messenger styles */
+.messenger-wrapper {
+    position: relative;
+    z-index: 1001;
+}
+
+.messenger-button {
+    display: flex;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    justify-content: center;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    animation: shakeAnimation 1s infinite;
+    text-decoration: none;
+}
+
+.messenger-button img {
+    width: 40px;
+}
+
+/* Hiệu ứng sóng loang cho messenger */
+.messenger-button::before,
+.messenger-button::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: rgba(255, 0, 0, 0.3);
+    animation: rippleAnimation 2s infinite;
+}
+
+.messenger-button::after {
+    animation-delay: 1s;
+}
+
+/* Hiệu ứng sóng loang cho fastbot */
+.fastbot-button::before,
+.fastbot-button::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: rgba(0, 255, 0, 0.3);
+    animation: rippleAnimation 2s infinite;
+}
+
+.fastbot-button::after {
+    animation-delay: 1s;
+}
+
+@keyframes shakeAnimation {
+    0% { transform: rotate(0deg); }
+    10% { transform: rotate(-10deg); }
+    20% { transform: rotate(10deg); }
+    30% { transform: rotate(-10deg); }
+    40% { transform: rotate(10deg); }
+    50% { transform: rotate(0deg); }
+    100% { transform: rotate(0deg); }
+}
+
+@keyframes rippleAnimation {
+    0% {
+        transform: scale(1);
+        opacity: 0.4;
+    }
+    100% {
+        transform: scale(2.5);
+        opacity: 0;
+    }
+}
+    </style>
+</head>
+
+<body>
+<!-- Page wrapper starts -->
+<div class="page-wrapper">
+
+    <!-- App header starts -->
+    <div class="app-header d-flex align-items-center">
+
+        <!-- App brand starts -->
+        <div class="app-brand ms-3">
+            <a th:href="@{/}" class="d-lg-block d-none">
+                <img th:src="@{/image/user/logo.svg}" class="logo" alt="Medicare Admin Template">
+            </a>
+            <a th:href="@{/}" class="d-lg-none d-md-block">
+                <img th:src="@{/image/user/logo-sm.svg}" class="logo" alt="Medicare Admin Template">
+            </a>
+        </div>
+        <!-- App brand ends -->
+
+        <!-- App header actions starts -->
+        <div class="header-actions">
+
+            <!-- Search container starts -->
+            <div class="search-container d-lg-block d-none mx-3">
+                <input type="text" class="form-control" id="searchId" placeholder="Search">
+                <i class="ri-search-line"></i>
+            </div>
+            <!-- Search container ends -->
+
+            <!-- Header user settings starts -->
+            <div class="dropdown ms-2">
+                <a id="userSettings" class="dropdown-toggle d-flex align-items-center" href="#!" role="button"
+                   data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="avatar-box">
+                        <span th:text="${@stringUtils.getInitials(session.nguoidungLogged.tenNguoiDung)}"></span>
+                        <span class="status busy"></span>
+                    </div>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end shadow-lg">
+                    <div class="px-3 py-2">
+                        <h6 class="m-0" th:text="${session.nguoidungLogged.tenNguoiDung}"></h6>
+                    </div>
+
+                    <div th:if="${session.nguoidungLogged}" class="mx-3 my-2 d-grid">
+                        <a th:href="@{/logout}" class="btn btn-danger">Đăng xuất</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Header user settings ends -->
+
+        </div>
+        <!-- App header actions ends -->
+    </div>
+    <!-- App header ends -->
+
+    <!-- Main container starts -->
+    <div class="main-container">
+
+        <!-- App container starts -->
+        <div class="app-container">
+
+            <!-- App body starts -->
+            <div class="app-body">
+
+                <div th:replace="~{${contentHome} :: contentHome}"></div>
+
+            </div>
+            <!-- App body ends -->
+
+            <!-- App footer starts -->
+            <div class="app-footer bg-white">
+                <span>Medflex - Hồ sơ sức khỏe của gia đình</span>
+            </div>
+            <!-- App footer ends -->
+
+        </div>
+        <!-- App container ends -->
+
+    </div>
+    <!-- Main container ends -->
+
+</div>
+<!-- Page wrapper ends -->
+
+
+<script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+
+<!-- code có chat-bot có phí-->
+
+<!--fix-->
+<!-- Container chứa tất cả các nút-->
+<div class="messenger-wrapper" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000; height: 225px ; display: flex; flex-direction: column; gap: 20px; align-items: flex-end;">
+    <!-- Dialogflow Messenger -->
+    <df-messenger
+            intent="WELCOME"
+            chat-title="Thợ_Code_Ít_$"
+            agent-id="3d2ad013-0fca-4512-aea2-4cb4147056cf"
+            language-code="en">
+    </df-messenger>
+
+
+
+<!--    ko cần thì cancel-->
+<!--    <script defer src="https://app.fastbots.ai/embed.js" data-bot-id="cm42vjlj300j3svbm95hkc089"></script>-->
+    <script>
+        function toggleFastBot() {
+            const wrapper = document.querySelector('.fastbot-wrapper');
+            wrapper.classList.toggle('active');
+        }
+    </script>
+
+    <!-- Nút Messenger -->
+    <div>
+        <a href="https://m.me/522900964234359" target="_blank" style="text-decoration: none;">
+            <div class="messenger-button">
+                <img
+                    th:src="@{/image/mess.png}"
+                    alt="Messenger Icon"
+                    style="width: 40px; margin-right: 0px;"
+                />
+            </div>
+        </a>
+    </div>
+
+    <!-- Chat bot có phí -->
+    <div class="fastbot-wrapper">
+        <div class="fastbot-button" onclick="toggleFastBot()">
+            <img th:src="@{/image/bot.png}" alt="FastBot Icon" />
+        </div>
+
+
+<!--        <iframe	 class="fastbot-iframe"-->
+<!--                   src="https://app.fastbots.ai/embed/cm456kf7n0gdxsvbmn2usmzs6"></iframe>-->
+
+        <iframe	class="fastbot-iframe" src="https://app.fastbots.ai/embed/cm42vjlj300j3svbm95hkc089"></iframe>
+
+    </div>
+</div>
+
+
+<!--chưa fix-->
+<!--<df-messenger-->
+<!--        intent="WELCOME"-->
+<!--        chat-title="Thợ_Code_Ít_$"-->
+<!--        agent-id="3d2ad013-0fca-4512-aea2-4cb4147056cf"-->
+<!--        language-code="en"-->
+<!--&gt;</df-messenger>-->
+
+<!--&lt;!&ndash; Nút Messenger &ndash;&gt;-->
+<!--<div style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">-->
+<!--    <a href="https://m.me/522900964234359" target="_blank" style="text-decoration: none;">-->
+<!--        <div style="-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            color: white;-->
+<!--            padding: 13px 2px;-->
+<!--            border-radius: 50px;-->
+<!--            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);-->
+<!--            cursor: pointer;-->
+<!--            font-family: Arial, sans-serif;-->
+<!--            font-size: 16px;-->
+<!--        ">-->
+<!--            <img-->
+<!--                    th:src="@{/image/mess.png}"-->
+<!--                    alt="Messenger Icon"-->
+<!--                    style="width: 40px; height: 30px; margin-right: 10px;"-->
+<!--            />-->
+<!--        </div>-->
+<!--    </a>-->
+<!--</div>-->
+
+
+</body>
+
+
+</html>
+
+<script>
+    function calculateAge(dateOfBirth) {
+        const dateOnly = dateOfBirth.split(' ')[0];
+        const birthDate = new Date(dateOnly);
+        const today = new Date();
+
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDifference = today.getMonth() - birthDate.getMonth();
+
+        if (isNaN(birthDate.getTime())) {
+            return "Chưa cập nhật tuổi";
+        }
+
+        if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+
+        return age < 0 ? 0 : age;
+    }
+
+    function displayAges() {
+        const elements = document.querySelectorAll('.birthdate');
+        elements.forEach(el => {
+            const dateOfBirth = el.textContent.trim();
+            const age = calculateAge(dateOfBirth);
+
+            if (age === "Chưa cập nhật tuổi") {
+                el.nextElementSibling.textContent = age;
+            } else {
+                el.nextElementSibling.textContent = age + " tuổi";
+            }
+
+            el.style.display = 'none';
+        });
+    }
+
+    window.onload = displayAges;
+</script>

@@ -1,0 +1,134 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{/admin/dashboard}">
+<head>
+    <title>Quản lý Khám Bệnh</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+</head>
+<body>
+<div th:fragment="contentAdmin">
+    <!--top--navbar----design--------->
+    <div class="top-navbar">
+        <div class="xp-topbar">
+            <!-- Start XP Row -->
+            <div class="row justify-content-between">
+                <!-- Start XP Col -->
+                <div class="col-2 col-md-1 col-lg-1 order-2 order-md-1 align-self-center">
+                    <div class="xp-menubar">
+                        <span class="material-icons text-white">signal_cellular_alt</span>
+                    </div>
+                </div>
+                <div class="col-md-5 col-lg-3 order-3 order-md-2">
+                    <div class="xp-searchbar">
+                        <div class="input-group">
+                            <input id="searchInput" th:value="${query}" type="search" class="form-control"
+                                   placeholder="Search">
+                            <div class="input-group-append">
+                                <button class="btn" id="searchButton">Tìm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End XP Col -->
+
+            </div>
+        </div>
+    </div>
+
+    <!--------main-content------------->
+    <div class="main-content" style="" >
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-wrapper">
+                    <div class="table-title">
+                        <div class="row">
+                            <div class="col-sm-12 p-0 d-flex justify-content-between justify-content-center">
+                                <h2 class="ml-lg-2">Quản lý Hình ảnh chi tiết khám bệnh</h2>
+                                <!-- Form upload -->
+                                <div style="width: fit-content">
+                                    <form action="/admin/khambenh/chitiet/hinhanh/add" method="post"
+                                          enctype="multipart/form-data">
+                                        <input type="file" id="imageInput" hidden="hidden" name="image" accept="image/*"
+                                               style="display: none;" onchange="this.form.submit()">
+                                        <input type="hidden" name="maChiTietKhamBenh"
+                                               th:value="${param.maChiTietKhamBenh}">
+                                        <button type="button" class="btn btn-success"
+                                                onclick="document.getElementById('imageInput').click()">Thêm hình ảnh
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="height: fit-content">
+            <div th:each="hinhAnh : ${hinhAnhList}" class="mb-3 p-3 ml-3 border-1 border border-black rounded rounded-5  ">
+                <img th:src="${hinhAnh.hinhAnh}" alt="Hình ảnh" class="img-fluid" style="height: 300px">
+                <!-- Delete button -->
+                <div class="flex-row d-flex mt-1">
+                    <form th:action="@{/admin/khambenh/chitiet/hinhanh/delete}" method="post" class="">
+                        <input type="hidden" name="maHinhAnh" th:value="${hinhAnh.maHinhAnh}">
+                    <input type="hidden" name="maChiTietKhamBenh" th:value="${param.maChiTietKhamBenh}">
+                        <button type="submit" class="btn btn-danger btn-sm mr-2">
+                            xóa
+                        </button>
+                    </form>
+                    <!-- Zoom button -->
+                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#zoomModal" th:data-image="${hinhAnh.hinhAnh}">
+                        xem
+                    </button>
+
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="zoomModal" tabindex="-1" role="dialog" aria-labelledby="zoomModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document" style="max-width: 90%; margin: auto;">
+                <div class="modal-body text-center" style="padding-top: 20px;">
+                    <img id="zoomedImage" src="" alt="Hình ảnh zoom"
+                         style="max-width: 100% !important; height: 80vh !important; object-fit: contain !important;">
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Script for Zooming -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                $('button[data-toggle="modal"]').click(function() {
+                    var imageSrc = $(this).data('image');
+                    console.log("Image src:", imageSrc);  // Kiểm tra giá trị imageSrc
+
+                    if (imageSrc) {
+                        $('#zoomedImage').attr('src', imageSrc); // Set src for the modal image
+                        $('#zoomModal').modal('show'); // Show the modal
+                    } else {
+                        console.log("Không có giá trị imageSrc");
+                    }
+                });
+            });
+        </script>
+
+        <!---footer---->
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="footer-in">
+                    <p class="mb-0">&copy 2020 Vishweb design - All Rights Reserved.</p>
+                </div>
+            </div>
+        </footer>
+
+        <script th:src="@{/js/admin/jquery-3.3.1.min.js}"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    </div>
+</div>
+</body>
+</html>
+

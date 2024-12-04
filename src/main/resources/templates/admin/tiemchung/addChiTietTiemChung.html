@@ -1,0 +1,87 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{/admin/dashboard}">
+<head>
+    <title th:text="${param.id != null ? 'Cập nhật tiêm chủng' : 'Thêm mới tiêm chủng'}"></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+<div th:fragment="contentAdmin">
+    <div class="card-body">
+        <div class="col-md-6" style="max-width: 100%;">
+            <div class="card mb-4">
+                <h5 class="font-weight-bold card-header">Tạo mới Thông tin tiêm chủng</h5>
+                <div class="card">
+                    <div class="card-body">
+                        <form th:action="@{/admin/tiemchung/chitiet/save}" th:object="${ctTiemChung}" method="post">
+                            <div class="row">
+                                <input type="number" id="maNguoiDung" class="form-control form-control-lg bg-light fs-6" th:field="*{maNguoiDung}" hidden />
+                                <input type="number" id="maTiemChung" class="form-control form-control-lg bg-light fs-6" th:field="*{maTiemChung}" hidden />
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="tiemChung">Mã Tiêm Chủng:</label>
+                                        <input disabled type="text" class="form-control" id="tiemChung" th:value="*{maTiemChung}" th:field="*{maTiemChung}" required>
+                                        <span th:if="${#fields.hasErrors('maTiemChung')}" th:errors="*{maTiemChung}" class="text-danger"></span>
+                                    </div>
+                                </div>
+<!--                                <div class="col-md-6">-->
+<!--                                    <div class="form-group">-->
+<!--                                        <label for="tiemChung">Tên vắc-xin:</label>-->
+<!--                                        <input disabled type="text" class="form-control" th:value="*{tiemChung.tenVacXin}" >-->
+<!--                                    </div>-->
+<!--                                </div>-->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="ngayTiem">Ngày Tiêm:</label>
+                                        <input type="datetime-local" class="form-control" id="ngayTiem" th:field="*{ngayTiem}" required>
+                                        <span th:if="${#fields.hasErrors('ngayTiem')}" th:errors="*{ngayTiem}" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="nguoiTiem">Người Tiêm:</label>
+                                        <input type="text" class="form-control" id="nguoiTiem" th:field="*{nguoiTiem}" required>
+                                        <span th:if="${#fields.hasErrors('nguoiTiem')}" th:errors="*{nguoiTiem}" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="nguoiDung">Người Được Tiêm:</label>
+                                        <select id="nguoiDung" name="maNguoiDung" class="form-select" onchange="updateMaNguoiDung()">
+                                            <option value="" disabled selected>Chọn người tiêm</option>
+                                            <option th:each="nguoiDung : ${dsNguoiDung}"
+                                                    th:value="${nguoiDung.maNguoiDung}"
+                                                    th:text="${nguoiDung.maNguoiDung + ' - ' + nguoiDung.tenNguoiDung}">
+                                            </option>
+                                        </select>
+                                        <span th:if="${#fields.hasErrors('maNguoiDung')}" th:errors="*{maNguoiDung}" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="muiTiemSo">Mũi Tiêm Số:</label>
+                                        <input type="number" class="form-control" id="muiTiemSo" th:field="*{muiTiemSo}" required min="1">
+                                        <span th:if="${#fields.hasErrors('muiTiemSo')}" th:errors="*{muiTiemSo}" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="create-btn mt-2 d-flex justify-content-end">
+                                <a th:href="@{/admin/tiemchung}" class="btn btn-outline-secondary" style="line-height: 32px;">Trở về</a>
+                                <input type="submit" th:value="${param.id != null ? 'Lưu' : 'Thêm'}" class="btn btn-primary ml-2" style="min-width: 140px" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+<script>
+    function updateMaNguoiDung() {
+        var selectedValue = document.getElementById('nguoiDung').value;
+        document.getElementById('maNguoiDung').value = selectedValue;
+    }
+</script>

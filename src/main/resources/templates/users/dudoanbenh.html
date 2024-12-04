@@ -1,0 +1,49 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi Tiết Bệnh</title>
+</head>
+<body>
+<div th:fragment="contentUser" class="container">
+    <link rel="stylesheet" th:href="@{../../css/user/chitietbenh.css}">
+
+    <div class="merged-container">
+        <div class="outer-container">
+            <h4 class="mb-4">Chi Tiết Bệnh</h4>
+            <div class="card-wrapper">
+                <a  th:href="@{/users/khambenh/thongtinbenh(maChiTietKhamBenh=${ctKhamBenh.maChiTietKhamBenh})}" class="card-item"
+                    th:each="ctKhamBenh : ${dsChiTietKhamBenh}">
+                    <div class="card">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="date-box">
+                                <div class="day" th:text="${@stringUtils.formatDate(ctKhamBenh.thoiGianVaoKham, 'dd')}">26</div>
+                                <div class="month-year" th:text="${@stringUtils.formatDate(ctKhamBenh.thoiGianVaoKham, 'MM/yyyy')}">11/2021</div>
+                                <div class="time" th:text="${@stringUtils.formatDate(ctKhamBenh.thoiGianVaoKham, 'HH:mm')}">01:00</div>
+                            </div>
+                            <div class="vaccine-info flex-grow-1">
+                                <div>
+                                    <i class="bi bi-person-hearts"></i>
+                                    <span class="ml-2" th:text="${ctKhamBenh.bacSiKham}"></span>
+                                </div>
+                                <div>
+                                    <i class="bi bi-clipboard2-pulse-fill"></i>
+                                    <span class="ml-2" th:text="${ctKhamBenh.chiDinh}"></span>
+                                </div>
+                                <div>
+                                    <i class="bi bi-heart-pulse-fill"></i>
+                                    <span class="ml-2" th:text="${ctKhamBenh.chuanDoan}"></span>
+                                </div>
+                            </div>
+                            <div class="arrow">&gt;</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

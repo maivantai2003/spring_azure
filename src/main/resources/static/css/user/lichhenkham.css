@@ -1,0 +1,12 @@
+/* Làm mờ lịch hẹn đã qua */
+.expired {
+    opacity: 0.5;
+    background-color: #f8f9fa;  /* Có thể thay đổi theo ý muốn */
+    color: #6c757d;  /* Màu chữ xám cho lịch đã qua */
+}
+
+/* Nền xanh, chữ trắng cho lịch hẹn vào ngày hiện tại */
+.today {
+    background-color: #007bff; /* Màu xanh */
+    color: white;  /* Màu chữ trắng */
+}

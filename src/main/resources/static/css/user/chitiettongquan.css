@@ -1,0 +1,96 @@
+.card {
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.card-header {
+    background-color: #ffffff;
+    border-bottom: none;
+    padding: 20px 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.card-body {
+    padding: 20px;
+}
+.history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+.history-item:last-child {
+    border-bottom: none;
+}
+.history-info {
+    display: flex;
+    flex-direction: column;
+}
+.blood-icon {
+    color: #007bff;
+    margin-right: 10px;
+}
+.history-date {
+    font-size: 0.85em;
+    color: #6c757d;
+    margin-top: 5px;
+}
+.delete-btn {
+    background-color: #dc3545;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+.delete-btn:hover {
+    background-color: #c82333;
+}
+.delete-btn:active {
+    transform: scale(0.95);
+}
+.delete-btn i {
+    margin-right: 5px;
+}
+.add-btn {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 1em;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    display: flex;
+    align-items: center;
+}
+.add-btn:hover {
+    background-color: #0056b3;
+}
+.add-btn:active {
+    transform: scale(0.95);
+}
+.add-btn i {
+    margin-right: 8px;
+}
+.card-header-with-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.delete-icon {
+  color: #dc3545;
+  cursor: pointer;
+}
+
+#add-detail {
+  bottom: 20px;
+  right: 20px;
+  width: 100px;
+  height: 100px;
+  z-index: 100;
+}

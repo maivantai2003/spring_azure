@@ -1,0 +1,53 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{/admin/dashboard}">
+<head>
+    <title th:text="${param.id != null ? 'Cập nhật tiêm chủng' : 'Thêm mới tiêm chủng'}"></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+<div th:fragment="contentAdmin">
+    <div class="card-body">
+        <div class="col-md-6" style="max-width: 100%;">
+            <div class="card mb-4">
+                <h5 class="font-weight-bold card-header" >Tạo mới Thông tin tiêm chủng</h5>
+                <div class="card">
+                    <div class="card-body">
+                        <form th:action="@{/admin/tiemchung/save}" th:object="${tiemchung}" method="post">
+                            <div class="row">
+                                <input type="number" id="maTiemChung" class="form-control form-control-lg bg-light fs-6" th:field="*{maTiemChung}" hidden />
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="tenVacXin">Tên vắc-xin:</label>
+                                        <input type="text" class="form-control" id="tenVacXin" th:field="*{tenVacXin}" required>
+                                        <span th:if="${#fields.hasErrors('tenVacXin')}" th:errors="*{tenVacXin}" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="noiTiemChung">Nơi Tiêm:</label>
+                                        <input type="text" class="form-control" id="noiTiemChung" th:field="*{noiTiemChung}" required>
+                                        <span th:if="${#fields.hasErrors('noiTiemChung')}" th:errors="*{noiTiemChung}" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="soMuiTiem">Số Mũi Tiêm:</label>
+                                        <input type="number" class="form-control" id="soMuiTiem" th:field="*{soMuiTiem}" required min="1">
+                                        <span th:if="${#fields.hasErrors('soMuiTiem')}" th:errors="*{soMuiTiem}" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="create-btn mt-2 d-flex justify-content-end">
+                                <a th:href="@{/admin/tiemchung}" class="btn btn-outline-secondary" style="line-height: 32px;">Trở về</a>
+                                <input type="submit" th:value="${param.id != null ? 'Lưu' : 'Thêm'}" class="btn btn-primary ml-2" style="min-width: 140px" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

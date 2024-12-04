@@ -1,0 +1,94 @@
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" th:replace="~{base}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông tin BHYT</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body>
+<div th:fragment="contentUser"   class="container">
+    <link rel="stylesheet" th:href="@{../../css/user/thongtinkhac.css}">
+
+    <div class="form-container">
+        <h2 class="text-center mb-4">Thông tin BHYT</h2>
+        <form>
+            <div class="mb-4">
+                <label for="bhytNumber" class="form-label">Số thẻ BHYT</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="bhytNumber" placeholder="Nhập số thẻ BHYT">
+                    <span class="input-group-text"><i class="bi bi-qr-code-scan"></i></span>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label for="startDate" class="form-label">Thời hạn sử dụng thẻ - Từ ngày</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="startDate" placeholder="Chọn ngày bắt đầu">
+                    <span class="input-group-text"><i class="bi bi-calendar"></i></span>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label for="endDate" class="form-label">Thời hạn sử dụng thẻ - Đến ngày</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="endDate" placeholder="Chọn ngày kết thúc">
+                    <span class="input-group-text"><i class="bi bi-calendar"></i></span>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label for="fiveYearDate" class="form-label">Thời điểm đủ 05 năm liên tục</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="fiveYearDate" placeholder="Chọn ngày">
+                    <span class="input-group-text"><i class="bi bi-calendar-check"></i></span>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <label for="nationality" class="form-label">Quốc tịch</label>
+                    <select class="form-select" id="nationality">
+                        <option selected>Việt Nam</option>
+                        <option>Khác</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="ethnicity" class="form-label">Dân tộc</label>
+                    <select class="form-select" id="ethnicity">
+                        <option selected disabled>Chọn dân tộc</option>
+                        <option>Kinh</option>
+                        <option>Khác</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label for="religion" class="form-label">Tôn giáo</label>
+                <select class="form-select" id="religion">
+                    <option selected disabled>Chọn tôn giáo</option>
+                    <option>Không</option>
+                    <option>Phật giáo</option>
+                    <option>Công giáo</option>
+                    <option>Khác</option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label for="occupation" class="form-label">Nghề nghiệp</label>
+                <select class="form-select" id="occupation">
+                    <option selected disabled>Chọn nghề nghiệp</option>
+                    <option>Công nhân</option>
+                    <option>Giáo viên</option>
+                    <option>Bác sĩ</option>
+                    <option>Khác</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Lưu thông tin</button>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

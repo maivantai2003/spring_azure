@@ -1,0 +1,278 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{/admin/dashboard}">
+<head>
+    <title>Chi tiết tiêm chủng</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+
+</head>
+<body>
+<div th:fragment="contentAdmin">
+    <style>
+        .btn-toggle {
+            background-color: #28c76f;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-toggle.toggle-off {
+            background-color: #f6c23e;
+        }
+    </style>
+    <!--top--navbar----design--------->
+    <div class="top-navbar">
+        <div class="xp-topbar">
+            <!-- Start XP Row -->
+            <div class="row justify-content-between">
+                <!-- Start XP Col -->
+                <div class="col-2 col-md-1 col-lg-1 order-2 order-md-1 align-self-center">
+                    <div class="xp-menubar">
+                        <span class="material-icons text-white">signal_cellular_alt</span>
+                    </div>
+                </div>
+
+                <!-- Start XP Col -->
+                <div class="col-md-5 col-lg-3 order-3 order-md-2">
+                    <div class="xp-searchbar">
+                        <div class="input-group">
+                            <input id="searchInput" th:value="${query}" type="search" class="form-control" placeholder="Search">
+                            <div class="input-group-append">
+                                <button class="btn" id="searchButton">Tìm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End XP Col -->
+
+            </div>
+        </div>
+    </div>
+
+    <!--------main-content------------->
+    <div class="main-content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-wrapper">
+                    <div class="table-title">
+                        <div class="row">
+                            <div class="col-sm-6 p-0 d-flex justify-content-lg-start justify-content-center">
+                                <h2 class="ml-lg-2" th:text="${'Chi tiết tiêm chủng (TC'
+                                + @stringUtils.padWithZeros(maTiemChung, 3) + ')'}"></h2>
+                            </div>
+                            <div class="col-sm-6 p-0 d-flex justify-content-lg-end justify-content-center">
+                                <a th:href="@{/admin/tiemchung/chitiet/add(maTiemChung=${maTiemChung})}" class="btn btn-success">
+                                    <i class="material-icons">&#xE147;</i>
+                                    <span>Thêm mới</span>
+                                </a>
+                                <a href="#" data-toggle="modal" class="btn btn-danger delete-all" >
+                                    <i class="material-icons">&#xE15C;</i>
+                                    <span>Xóa</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div
+                                th:if="${param.err}"
+                                class="alert alert-danger alert-dismissible"
+                        >
+                            <a
+                                    href="#"
+                                    class="close"
+                                    data-dismiss="alert"
+                                    aria-label="close"
+                            >&times;</a
+                            >
+                            <span th:text="${param.err}"></span>
+                        </div>
+                        <div
+                                th:if="${param.success}"
+                                class="alert alert-success alert-dismissible"
+                        >
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close" >&times;</a>
+                            <span th:text="${param.success}"></span>
+                        </div>
+                    </div>
+                    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+                    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+                    <table class="table table-striped table-hover" >
+                        <thead>
+                        <tr>
+                            <th>
+                                <span class="custom-checkbox">
+                                    <input type="checkbox" id="selectAll">
+                                    <label for="selectAll"></label>
+                                </span>
+                            </th>
+                            <th>Người được tiêm</th>
+                            <th>Tên vắc-xin</th>
+                            <th>Ngày tiêm</th>
+                            <th>Người tiêm</th>
+                            <th>Mũi số</th>
+                            <th>Trạng thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="cttiemchung : ${dsCTTiemChung}">
+                            <td>
+                                <span class="custom-checkbox">
+                                    <input type="checkbox" th:id="${cttiemchung.maTiemChung}" th:value="${cttiemchung.maTiemChung}"
+                                           name="selectedIds">
+                                    <label th:for="'checkbox' + ${cttiemchung.maTiemChung}"></label>
+                                </span>
+                            </td>
+                            <td th:text="${cttiemchung.nguoiDung.tenNguoiDung}"></td>
+                            <td th:text="${cttiemchung.tiemChung.tenVacXin}"></td>
+                            <td th:text="${cttiemchung.ngayTiem}"></td>
+                            <td th:text="${cttiemchung.nguoiTiem}"></td>
+                            <td th:text="${cttiemchung.muiTiemSo}"></td>
+                            <td>
+                                <form th:action="@{/admin/tiemchung/chitiet/updateTrangThai}" method="post">
+                                    <input type="hidden" name="maTiemChung" th:value="${cttiemchung.maTiemChung}">
+                                    <input type="hidden" name="maNguoiDung" th:value="${cttiemchung.maNguoiDung}">
+                                    <button type="submit"
+                                            th:classappend="${cttiemchung.trangThai == true ? 'btn-disabled' : ''}"
+                                            th:disabled="${cttiemchung.trangThai == true}">
+                                        <span th:text="${cttiemchung.trangThai == true ? 'Đã tiêm' : 'Chưa tiêm'}"></span>
+                                    </button>
+                                </form>
+                            </td>
+                            <td>
+                                <a th:href="@{/admin/tiemchung/chitiet/update(id=${cttiemchung.maTiemChung})}" class="edit">
+                                    <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
+                                </a>
+                                <a href="#" class="delete" data-toggle="modal"
+                                   th:data-id1="${cttiemchung.maTiemChung}"
+                                   th:data-id2="${cttiemchung.maNguoiDung}">
+                                    <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Pagination -->
+                    <div class="clearfix">
+                        <div class="hint-text">Hiển thị <b th:text="${currentPage * pageSize + 1}"></b> đến
+                            <b th:text="${currentPage * pageSize + dsCTTiemChung.size()}"></b> trong số <b th:text="${totalItems}"></b> mục
+                        </div>
+                        <ul class="pagination">
+                            <li th:if="${currentPage > 0}" th:class="${currentPage == 0 ? 'page-item disabled' : 'page-item'}">
+                                <a th:href="@{/admin/cttiemchung(page=${currentPage - 1}, size=${pageSize}, query=${query})}" class="page-link">Trước</a>
+                            </li>
+                            <li class="page-item" th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
+                                th:classappend="${pageNum == currentPage} ? active">
+                                <a th:href="@{/admin/cttiemchung(page=${pageNum}, size=${pageSize}, query=${query})}"
+                                   class="page-link" th:text="${pageNum + 1}"></a>
+                            </li>
+                            <li th:if="${currentPage < totalPages - 1}" th:class="${currentPage == totalPages - 1 ? 'page-item disabled' : 'page-item'}">
+                                <a th:href="@{/admin/cttiemchung(page=${currentPage + 1}, size=${pageSize}, query=${query})}" class="page-link">Sau</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delete Modal HTML -->
+            <div id="deleteModal" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form th:action="@{/admin/tiemchung/chitiet/delete}" method="POST">
+                            <input type="hidden" name="maTiemChung" id="maTiemChung">
+                            <input type="hidden" name="maNguoiDung" id="maNguoiDung">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Xóa thông tin tiêm chủng</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Bạn có chắc chắn muốn xóa thông tin này không?</p>
+                                <p class="text-warning"><small>Hành động này không thể hoàn tác.</small></p>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="button" class="btn btn-default" data-dismiss="modal" value="Hủy">
+                                <input type="submit" class="btn btn-danger" value="Xóa">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delete All Modal HTML -->
+            <div id="deleteAllModal" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form th:action="@{/admin/tiemchung/chitiet/deleteall}" method="POST">
+                            <input type="hidden" name="selectedIds" id="selectedIds">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Xóa thông tin tiêm chủng</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Bạn có chắc chắn muốn xóa tất cả thông tin đã chọn không?</p>
+                                <p class="text-warning"><small>Hành động này không thể hoàn tác.</small></p>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="button" class="btn btn-default" data-dismiss="modal" value="Hủy">
+                                <input type="submit" class="btn btn-danger" value="Xóa tất cả">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!---footer---->
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="footer-in">
+                <p class="mb-0">&copy 2020 Vishweb design - All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</div>
+</body>
+</html>
+
+<script th:src="@{../../js/admin/cttiemchung.js}"></script>
+<script>
+    document.querySelectorAll('.btn-toggle').forEach(button => {
+        button.addEventListener('click', function () {
+            const maTiemChung = this.getAttribute('data-id1');
+            const maNguoiDung = this.getAttribute('data-id2');
+
+            if (maTiemChung === true) {
+                alert('Trạng thái "Đã tiêm" không thể thay đổi.');
+                return;
+            }
+
+            fetch('/admin/tiemchung/chitiet/updateTrangThai', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ maTiemChung: maTiemChung, maNguoiDung: maNguoiDung, trangThai: 1 })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        this.classList.remove('toggle-off');
+                        this.textContent = 'Đã tiêm';
+                        alert('Cập nhật trạng thái thành công!');
+                    } else {
+                        alert('Có lỗi xảy ra: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Lỗi:', error);
+                    alert('Không thể kết nối đến máy chủ.');
+                });
+        });
+    });
+</script>

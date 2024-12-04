@@ -1,0 +1,64 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{/admin/dashboard}">
+<head>
+  <title th:text="${param.maDonThuoc != null ? 'Cập nhật Đơn Thuốc' : 'Thêm mới Đơn Thuốc'}"></title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+<div th:fragment="contentAdmin">
+  <div class="card-body">
+    <div class="col-md-6" style="max-width: 100%;">
+      <div class="card mb-4">
+        <h5 class="font-weight-bold card-header">Tạo mới Thông tin Đơn Thuốc</h5>
+        <div class="card">
+          <div class="card-body">
+            <form th:action="@{/admin/donthuoc/save}" th:object="${donthuoc}" method="post">
+              <div class="row">
+                <input type="hidden" th:name="maDonThuoc" th:value="${donthuoc.maDonThuoc}" />
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="tenThuoc">Tên Thuốc: </label>
+                    <input type="text" class="form-control" id="tenThuoc" th:field="*{tenThuoc}" required >
+                    <span th:if="${#fields.hasErrors('tenThuoc')}" th:errors="*{tenThuoc}" class="text-danger"></span>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="hamLuong">Hàm lượng (mg): </label>
+                    <input type="text" class="form-control" id="hamLuong" th:field="*{hamLuong}" required >
+                    <span th:if="${#fields.hasErrors('hamLuong')}" th:errors="*{hamLuong}" class="text-danger"></span>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="donViTinh">Đơn vị tính: </label>
+                    <input type="text" class="form-control" id="donViTinh" th:field="*{donViTinh}" required >
+                    <span th:if="${#fields.hasErrors('donViTinh')}" th:errors="*{donViTinh}" class="text-danger"></span>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="create-btn mt-2 d-flex justify-content-end">
+                <a th:href="@{/admin/donthuoc}" class="btn btn-outline-secondary" style="line-height: 32px;">Trở về</a>
+                <input type="submit" th:value="${param.maDonThuoc != null ? 'Lưu' : 'Thêm'}" class="btn btn-primary ml-2" style="min-width: 140px" />
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
+
+<script>
+  function updateMaNguoiDung() {
+      var selectedValue = document.getElementById('nguoiDung').value;
+      document.getElementById('maNguoiDung').value = selectedValue;
+  }
+</script>

@@ -1,0 +1,92 @@
+<html lang="en" th:replace="~{/admin/dashboard}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.1/dist/sweetalert2.min.css">
+</head>
+<body>
+<div th:fragment="contentAdmin">
+
+    <div class="table-title">
+        <div class="row">
+            <div class="col-sm-6 p-0 d-flex justify-content-lg-start justify-content-center">
+                <h2 class="ml-lg-2">Quản lý lịch hẹn tiêm chủng</h2>
+            </div>
+            <div class="col-sm-6 p-0 d-flex justify-content-lg-end justify-content-center">
+                <a href="/admin/lichhentiemchung/add" class="btn btn-success">
+                    <i class="material-icons">&#xE147;</i>
+                    <span>Thêm mới</span>
+                </a>
+                <a data-target="#delete" class="btn btn-danger" data-toggle="modal">
+                    <i class="material-icons">&#xE15C;</i>
+                    <span>Xóa</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <form method="post" th:action="@{/admin/lichhentiemchung/delete}">
+        <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Bạn có chắc muốn xóa các lịch hẹn tiêm chủng</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+                        <button class="btn btn-danger" type="submit">Xóa</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>
+                    <span class="custom-checkbox">
+                        <input type="checkbox" id="selectAll">
+                        <label for="selectAll"></label>
+                    </span>
+                </th>
+                <th>Mã tiêm chủng</th>
+                <th>Nơi tiêm chủng</th>
+                <th>Ngày tiêm</th>
+                <th>Thao tác</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="lichHen : ${listLichHenTiemChung}">
+                <td>
+                    <input type="checkbox" class="lichHenCheckBox" name="deletedIds" th:value="${lichHen.maLichHenTiemChung}">
+                </td>
+                <td th:text="${lichHen.maLichHenTiemChung}"></td>
+                <td th:text="${lichHen.noiTiemChung}"></td>
+                <td th:text="${#temporals.format(lichHen.ngayHenTiem, 'dd-MM-yyyy HH:mm')}"></td>
+                <td>
+                    <a class="edit" th:href="@{/admin/lichhentiemchung/{id}(id=${lichHen.maLichHenTiemChung})}">
+                        <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.1/dist/sweetalert2.all.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const selectedAllCheckBox = document.getElementById('selectAll');
+            const checkBoxes = document.getElementsByClassName("lichHenCheckBox");
+
+            selectedAllCheckBox.addEventListener('change', (e) => {
+                Array.from(checkBoxes).forEach(checkbox => {
+                    checkbox.checked = e.target.checked;
+                });
+            });
+        });
+    </script>
+</div>
+</body>
+</html>

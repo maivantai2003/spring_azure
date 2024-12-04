@@ -1,0 +1,99 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Bill</title>
+</head>
+
+<body>
+<div th:fragment="contentUser" class="container">
+    <link rel="stylesheet" th:href="@{../../css/user/thongtinbenh.css}">
+    <link rel="stylesheet" th:href="@{../../css/user/chitietbenh.css}">
+
+    <form th:action="@{/users/tiensubenh/capnhatchitietbenh}" method="post">
+        <div class="card">
+        <div class="header">
+            <input type="hidden" name="maTongQuan" th:value="${tongQuan.maTongQuan}" />
+            <button type="submit">Cập nhật</button>
+        </div>
+
+        <div class="info-section">
+            <div class="info-text info">
+                <p><strong>Cân nặng:</strong> <span class="status-pill diagnosis-pill" th:text="${tongQuan.canNang + 'kg'}">0</span></p>
+                <p><strong>Chỉ số BMI:</strong> <span class="status-pill diagnosis-pill" th:text="${tongQuan.chiSoBMI}">0</span></p>
+                <p><strong>Chiều cao:</strong> <span class="status-pill diagnosis-pill" th:text="${tongQuan.chieuCao + 'cm'}">0</span></p>
+                <p><strong>Đường huyết:</strong> <span class="status-pill status-discharged" th:text="${tongQuan.duongHuyet + 'mg/dL'}">0</span></p>
+                <p><strong>Huyết áp:</strong> <span class="status-pill blood-group-pill" th:text="${tongQuan.huyetAp + 'mmHg'}">0</span></p>
+                <p><strong>Nhiệt độ:</strong> <span class="status-pill blood-group-pill" th:text="${tongQuan.nhietDo + '°C'}">0</span></p>
+                <p><strong>Nhịp tim:</strong> <span class="status-pill blood-group-pill" th:text="${tongQuan.nhipTim + 'bpm'}">0</span></p>
+                <p><strong>Nhóm máu:</strong> <span class="status-pill status-discharged" th:text="${tongQuan.nhomMau}">0</span></p>
+            </div>
+        </div>
+
+        <table class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th>Tiền sử bệnh (Dự đoán)</th>
+            </tr>
+            </thead>
+            <tbody th:if="${dsChiTietBenh != null and !#lists.isEmpty(dsChiTietBenh)}">
+                <tr th:each="chiTietBenh : ${dsChiTietBenh}">
+                    <td th:text="${chiTietBenh.tenBenh}"></td>
+                </tr>
+            </tbody>
+            <tbody th:if="${dsChiTietBenh == null or #lists.isEmpty(dsChiTietBenh)}">
+                <tr>
+                    <td>💖 Sức khỏe rất tốt 💖</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="cost-section">
+            Chúc Bạn Mạnh Khỏe 💖
+        </div>
+
+    </div>
+
+    </form>
+</div>
+
+<script>
+    let currentIndex = 0;
+
+    const thumbnails = document.querySelectorAll('.thumbnail-container img');
+    const mainImage = document.getElementById('mainImage');
+
+    thumbnails[currentIndex].classList.add('thumbnail-active');
+
+    thumbnails.forEach((thumbnail, index) => {
+        thumbnail.addEventListener('click', () => {
+            updateMainImage(index);
+        });
+    });
+
+    function updateMainImage(index) {
+        thumbnails[currentIndex].classList.remove('thumbnail-active');
+        currentIndex = index;
+        mainImage.src = thumbnails[index].dataset.src;
+        thumbnails[currentIndex].classList.add('thumbnail-active');
+    }
+
+    function prevImage() {
+        if (currentIndex > 0) {
+            updateMainImage(currentIndex - 1);
+        } else {
+            updateMainImage(thumbnails.length - 1);
+        }
+    }
+
+    function nextImage() {
+        if (currentIndex < thumbnails.length - 1) {
+            updateMainImage(currentIndex + 1);
+        } else {
+            updateMainImage(0);
+        }
+    }
+</script>
+</body>
+
+</html>

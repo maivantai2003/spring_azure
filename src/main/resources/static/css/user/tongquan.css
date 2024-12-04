@@ -1,0 +1,83 @@
+.merged-container {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.health-card {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+
+.health-card:hover {
+    transform: translateY(-5px);
+}
+
+.health-icon {
+    font-size: 36px;
+    color: #007bff;
+    margin-bottom: 15px;
+}
+
+.health-value {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+}
+
+.rh-emoji {
+    font-size: 24px;
+    color: white;
+    background-color: #dc3545;
+    padding: 4px 8px; /* Adjust padding for better fit */
+    border-radius: 8px;
+    margin-left: 0.01em; /* Very small margin for close alignment */
+    display: inline-block;
+    font-weight: bold;
+    position: relative;
+    top: -4.2px; /* Adjusted for alignment */
+    line-height: 1; /* Ensures the "+" is vertically centered */
+}
+
+.health-unit {
+    font-size: 16px;
+    color: #6c757d;
+}
+
+.health-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    color: #495057;
+}
+
+.health-date {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+@media (max-width: 768px) {
+    .health-card {
+        margin-bottom: 15px;
+    }
+
+    .health-icon {
+        font-size: 30px;
+    }
+
+    .health-value {
+        font-size: 24px;
+    }
+
+    .health-title {
+        font-size: 18px;
+    }
+}

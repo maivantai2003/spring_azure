@@ -1,0 +1,143 @@
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" th:replace="~{home}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <title>HOME</title>
+</head>
+<body>
+<script>
+    $(document).ready(function() {
+        console.log("jQuery và Bootstrap đã được tải.");
+    });
+</script>
+<div th:fragment="contentHome" class="container">
+    <!-- Row starts -->
+    <div class="row gx-3">
+        <div class="col-xxl-12 col-sm-12">
+            <div class="card mb-3 bg-2">
+                <div class="card-body">
+                    <div class="py-4 px-3 text-white">
+                        <h6>Good Morning,</h6>
+                        <h2>Dr. Patrick Kim</h2>
+                        <h5>Your schedule today.</h5>
+                        <div class="mt-4 d-flex gap-3">
+                            <div class="d-flex">
+                                <div class="icon-box lg bg-arctic rounded-3 me-3">
+                                    <i class="ri-walk-line fs-4"></i>
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <h4 class="m-0 lh-1">
+                                        Thành viên: 
+                                        <span th:text="${dsNguoiDung.size()}"></span>
+                                    </h4>
+                                    <p class="mt-2">
+                                        <a th:href="@{users/nguoidung/add}" class="btn btn-info">Thêm người thân</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Row ends -->
+
+    <!-- Row starts -->
+    <div class="row gx-3">
+        <div class="col-xl-3 col-sm-6 col-12" th:each="nguoiDung: ${dsNguoiDung}">
+            <div class="card mb-3">
+                <div class="card-body position-relative">
+                    <div class="dropdown position-absolute top-0" style="margin: 10px; right: 0;">
+                        <button class="btn p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="ri-more-2-fill fs-5 text-primary"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a class="dropdown-item" th:href="@{/users/nguoidung/update(maNguoiDung=${nguoiDung.maNguoiDung})}">Sửa</a>
+                            </li>
+                            <li>
+                                <a class="delete dropdown-item text-danger"
+                                   href="#" data-bs-toggle="modal"
+                                   th:data-id="${nguoiDung.maNguoiDung}">
+                                    Xóa
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="p-2 border border-primary rounded-circle me-3">
+                            <div class="icon-box md bg-primary-subtle rounded-5">
+                                <span th:if="${nguoiDung.hinhAnh == null or nguoiDung.hinhAnh.isEmpty()}">
+                                    <i class="ri-user-line fs-4 text-primary"></i>
+                                </span>
+
+                                <span th:if="${nguoiDung.hinhAnh != null and !nguoiDung.hinhAnh.isEmpty()}">
+                                    <img id="userImage" alt="User Picture" th:src="${nguoiDung.hinhAnh}" class="rounded-5" />
+                                </span>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <h4 class="lh-1" th:text="${nguoiDung.tenNguoiDung}"></h4>
+                            <p class="m-0" th:text="${nguoiDung.gioiTinh}"></p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-end justify-content-between mt-1">
+                        <a th:href="@{/users/tongquan(maNguoiDung=${nguoiDung.maNguoiDung})}" class="text-primary">
+                            <span>Xem thêm</span>
+                            <i class="ri-arrow-right-line ms-1"></i>
+                        </a>
+                        <div class="text-end">
+                            <p class="mb-0 text-primary birthdate" th:text="${nguoiDung.ngayThangNamSinh}"></p>
+                            <p class="mb-0 text-primary"><span></span></p>
+                            <span class="badge bg-primary-subtle text-primary small" th:text="${nguoiDung.moiQuanHe}"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="deleteModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form th:action="@{/users/nguoidung/delete}" method="POST">
+                    <input type="hidden" name="maNguoiDung" id="maNguoiDung">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Xóa thông tin người dùng</h4>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Bạn có chắc chắn muốn xóa thông tin này không?</p>
+                        <p class="text-warning"><small>Hành động này không thể hoàn tác.</small></p>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-default" data-bs-dismiss="modal" value="Hủy">
+                        <input type="submit" class="btn btn-danger" value="Xóa">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+
+<script>
+    $('.delete').click(function() {
+        const id = $(this).data('id');
+        if (id) {
+            $('#maNguoiDung').val(id);
+            $('#deleteModal').modal('show');
+        } else {
+            console.error('ID không hợp lệ');
+        }
+    });
+</script>

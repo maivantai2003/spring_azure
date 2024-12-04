@@ -1,0 +1,106 @@
+.card {
+    border-radius: 15px;
+    margin-bottom: 15px;
+}
+.date-box {
+    background-color: #e6f3ff;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    width: 80px;
+}
+.day {
+    font-size: 24px;
+    font-weight: bold;
+}
+.month-year {
+    font-size: 12px;
+}
+.time {
+    font-size: 12px;
+    color: #666;
+}
+.vaccine-info {
+    padding-left: 15px;
+}
+.arrow {
+    font-size: 24px;
+    color: #ccc;
+}
+.card-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: space-between;
+}
+.card-item {
+    flex: 1 1 calc(50% - 15px); /* Đảm bảo 2 item trên mỗi dòng */
+    max-width: calc(50% - 15px); /* Chiều rộng tối đa của 2 item */
+    min-width: 300px; /* Đặt chiều rộng tối thiểu */
+}
+.merged-container {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+.info {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    background-color: #f1f8ff;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+th {
+    background-color: #007bff;
+    color: white;
+}
+tbody tr:nth-child(odd) {
+    background-color: #d1d3d5;
+    color: black;
+}
+tbody tr:nth-child(even) {
+    background-color: #ffffff;
+}
+.status {
+    font-weight: bold;
+    color: #28a745;
+    background-color: transparent;
+    border-radius: 0;
+    padding: 0;
+    display: inline;
+}
+.hospital {
+    color: #007bff;
+    font-weight: bold;
+}
+.footer {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background-color: #007bff;
+    padding: 10px;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    margin-top: 0;
+}

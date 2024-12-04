@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>crud dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/css/admin/bootstrap.min.css}">
+    <!----css3---->
+    <link rel="stylesheet" th:href="@{/css/admin/custom.css}">
+
+    <!--google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!--google material icon-->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+
+<div class="wrapper">
+    <div class="body-overlay"></div>
+
+    <!-------------------------sidebar------------>
+    <div th:replace="~{admin/sizebar :: #sidebar}"></div>
+
+    <!--------page-content---------------->
+    <div id="content">
+        <div th:replace="~{${contentAdmin} :: contentAdmin}"></div>
+    </div>
+</div>
+
+<!----------html code compleate----------->
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script th:src="@{/js/admin/jquery-3.3.1.slim.min.js}"></script>
+<script th:src="@{/js/admin/popper.min.js}"></script>
+<script th:src="@{/js/admin/jquery-3.3.1.min.js}"></script>
+<script th:src="@{/js/admin/bootstrap.min.js}"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".xp-menubar").on('click', function () {
+            $('#sidebar').toggleClass('active');
+            $('#content').toggleClass('active');
+        });
+
+        $(".xp-menubar,.body-overlay").on('click', function () {
+            $('#sidebar,.body-overlay').toggleClass('show-nav');
+        });
+    });
+</script>
+
+</body>
+</html>

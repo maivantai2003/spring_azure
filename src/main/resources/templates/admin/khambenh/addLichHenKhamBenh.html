@@ -1,0 +1,32 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{/admin/dashboard}">
+<head>
+    <title th:text="${id != null ? 'Cập nhật lịch hẹn khám' : 'Thêm mới lịch hẹn khám'}"></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+<div th:fragment="contentAdmin">
+    <div class="card-body">
+        <div class="col-md-6" style="max-width: 100%;">
+            <div class="card mb-4">
+                <h5 class="font-weight-bold card-header" >Thông tin lịch hẹn khám</h5>
+                <div class="card">
+                    <div class="card-body">
+                        <form th:action="@{/admin/khambenh/lichhen/save}" th:object="${lichHenKhamDTO}" method="post">
+                            <div class="row">
+
+                            </div>
+
+                            <div class="create-btn mt-2 d-flex justify-content-end">
+                                <a th:href="@{/admin/tiemchung}" class="btn btn-outline-secondary" style="line-height: 32px;">Trở về</a>
+                                <input type="submit" th:value="${id != null ? 'Lưu' : 'Thêm'}" class="btn btn-primary ml-2" style="min-width: 140px" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
